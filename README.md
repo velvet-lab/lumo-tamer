@@ -345,7 +345,18 @@ Please share your experiences with new API clients (both issues and successes) i
 
 It is recommended to run lumo-tamer's server in a Docker container.
 
-### Install
+### Build via GitHub Actions
+
+This repository includes a [GitHub Actions workflow](.github/workflows/docker-build.yml) that builds the Docker image and pushes it to `ghcr.io/<owner>/lumo-tamer` on every push to `main` and on version tags (`v*`).  
+On pull requests the image is built but not pushed — this verifies your changes compile correctly.
+
+To use the pre-built image:
+
+```bash
+docker pull ghcr.io/zerotricks/lumo-tamer:main
+```
+
+### Local Build
 
 ```bash
 git clone https://github.com/ZeroTricks/lumo-tamer.git
