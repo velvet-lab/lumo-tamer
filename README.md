@@ -8,13 +8,13 @@
 │  Your favorite  │◄───►│   Encryption    │◄───►│  Open WebUI     │
 │  private AI     │     │   Tooling       │     └─────────────────┘
 │                 │     │                 │     ┌─────────────────┐
-└─────────────────┘     │                 │◄───►│   CLI           │ 
+└─────────────────┘     │                 │◄───►│   CLI           │
                         └─────────────────┘     └─────────────────┘
 ```
 
 Use [Proton Lumo](https://lumo.proton.me/) in your favorite AI-enabled app or on the command line.
 
-> **Official API support [is coming](https://www.reddit.com/r/lumo/comments/1qsa8xq/comment/o304ez3/) to Lumo!**  
+> **Official API support [is coming](https://www.reddit.com/r/lumo/comments/1qsa8xq/comment/o304ez3/) to Lumo!**
 > lumo-tamer will be ported to use the new API when it becomes available, and obsolete parts will be stripped out (depending on API features such as OpenAI compatibility, tools, conversation support). If you can't wait, give lumo-tamer a go!
 
 
@@ -147,7 +147,7 @@ tamer                   # use Lumo interactively
 tamer "make me laugh"   # one-time prompt
 ```
 
-To give Lumo access to your files and let it execute commands locally, set `cli.localActions.enabled: true` in `config.yaml` (see [Local Actions](#local-actions-cli)).  
+To give Lumo access to your files and let it execute commands locally, set `cli.localActions.enabled: true` in `config.yaml` (see [Local Actions](#local-actions-cli)).
 You can ask Lumo to give you a demo of its capabilities, or see this [demo chat](docs/demo-cli-chat.md).
 
 ### In-chat commands
@@ -167,11 +167,11 @@ Both CLI and API accept a few in-chat commands. Realistically, you'll only use `
 
 Add configuration options to `config.yaml`. Find all options in [`config.defaults.yaml`](config.defaults.yaml), but don't edit this file directly.
 
-Below is a non-exhaustive overview of the most common config sections and their options. Except for some auth settings (which are set by `tamer auth`), all settings are optional. By default, lumo-tamer is conservative: experimental or resource-heavy features are disabled. 
+Below is a non-exhaustive overview of the most common config sections and their options. Except for some auth settings (which are set by `tamer auth`), all settings are optional. By default, lumo-tamer is conservative: experimental or resource-heavy features are disabled.
 
 ### Global options
 
-Options in sections `log`, `conversations` and `commands` can be set globally (used by server and CLI), and can optionally be overwritten within `cli` and `server`.  
+Options in sections `log`, `conversations` and `commands` can be set globally (used by server and CLI), and can optionally be overwritten within `cli` and `server`.
 For example: set the default log output to your terminal at the `info` level, while the CLI logs to a file instead.
 ```yaml
 log:
@@ -246,7 +246,7 @@ server:
     enabled: true
 ```
 
-> **Warning:** Custom tool support is experimental and can fail in various ways. Experiment with `server.instructions` settings to improve results. See [Custom Tools](docs/custom-tools.md) for details, tweaking, and troubleshooting. 
+> **Warning:** Custom tool support is experimental and can fail in various ways. Experiment with `server.instructions` settings to improve results. See [Custom Tools](docs/custom-tools.md) for details, tweaking, and troubleshooting.
 
 
 ### Local Actions (CLI)
@@ -264,8 +264,8 @@ cli:
       python: ["python", "-c"]
 ```
 
-The CLI always asks for confirmation before executing commands or applying file changes. File reads are automatic.  
-Configure available languages for your system in `executors`. By default, `bash`, `python`, and `sh` are enabled.  
+The CLI always asks for confirmation before executing commands or applying file changes. File reads are automatic.
+Configure available languages for your system in `executors`. By default, `bash`, `python`, and `sh` are enabled.
 See [Local Actions](docs/local-actions.md) for further configuration and troubleshooting.
 
 ### Conversation Sync
@@ -335,7 +335,7 @@ curl http://localhost:3003/v1/chat/completions \
 
 ### Other API clients
 
-Many clients are untested with lumo-tamer but should work if they only use the `/v1/responses` or `/v1/chat/completions` endpoints. As a rule of thumb: basic chatting will most likely work, but the more a client relies on custom tools, the more the experience is degraded.  
+Many clients are untested with lumo-tamer but should work if they only use the `/v1/responses` or `/v1/chat/completions` endpoints. As a rule of thumb: basic chatting will most likely work, but the more a client relies on custom tools, the more the experience is degraded.
 To test an API client, increase log levels on both the client and lumo-tamer: `server.log.level: debug` and check for errors.
 
 Please share your experiences with new API clients (both issues and successes) in [the project discussions](https://github.com/ZeroTricks/lumo-tamer/discussions/new?category=general)!
@@ -347,13 +347,19 @@ It is recommended to run lumo-tamer's server in a Docker container.
 
 ### Build via GitHub Actions
 
-This repository includes a [GitHub Actions workflow](.github/workflows/docker-build.yml) that builds the Docker image and pushes it to `ghcr.io/<owner>/lumo-tamer` on every push to `main` and on version tags (`v*`).  
-On pull requests the image is built but not pushed — this verifies your changes compile correctly.
+This repository includes a [GitHub Actions workflow](.github/workflows/docker-build.yml) that builds two Docker images on every push to `main` and on version tags (`v*`):
 
-To use the pre-built image:
+| Image | Tag-Name | Beschreibung |
+|---|---|---|
+| **tamer** | `ghcr.io/<owner>/lumo-tamer:*` | Haupt-API-Server (Dockerfile) |
+| **browser** | `ghcr.io/<owner>/lumo-tamer-browser:*` | Optionaler Browser-Service (Dockerfile.browser) |
+
+On pull requests both images are built but not pushed — this verifies your changes compile correctly.
 
 ```bash
+# Pre-built images nutzen
 docker pull ghcr.io/zerotricks/lumo-tamer:main
+docker pull ghcr.io/zerotricks/lumo-tamer-browser:main
 ```
 
 ### Local Build
