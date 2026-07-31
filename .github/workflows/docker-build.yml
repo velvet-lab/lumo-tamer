@@ -73,7 +73,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api --method PATCH "/user/packages/container/${{ env.IMAGE_NAME }}/visibility" \
+          PACKAGE_NAME=$(echo "${{ env.IMAGE_NAME }}" | sed 's|.*/||')
+          gh api --method PATCH "/orgs/${{ github.repository_owner }}/packages/container/${PACKAGE_NAME}/visibility" \
             -f visibility=public
 
   browser:
@@ -134,5 +135,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api --method PATCH "/user/packages/container/${{ env.IMAGE_NAME }}-browser/visibility" \
+          PACKAGE_NAME=$(echo "${{ env.IMAGE_NAME }}-browser" | sed 's|.*/||')
+          gh api --method PATCH "/orgs/${{ github.repository_owner }}/packages/container/${PACKAGE_NAME}/visibility" \
             -f visibility=public
