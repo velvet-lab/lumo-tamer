@@ -68,6 +68,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Make package public
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api --method PATCH "/user/packages/container/${{ env.IMAGE_NAME }}/visibility" \
+            -f visibility=public
+
   browser:
     name: Build browser image
     runs-on: ubuntu-latest
@@ -120,3 +128,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Make package public
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api --method PATCH "/user/packages/container/${{ env.IMAGE_NAME }}-browser/visibility" \
+            -f visibility=public
